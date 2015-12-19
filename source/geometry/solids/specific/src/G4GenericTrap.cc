@@ -1322,6 +1322,12 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     }
     pMin-=kCarTolerance;
     pMax+=kCarTolerance;
+    // Artificailly multiply the extent by two because it is erroniously small?
+    //G4cout << " TIMES TWO " << G4endl;
+    pMin*=2.0;
+    pMax*=2.0;
+    //G4cout << " ### pMin " << pMin << G4endl;
+    //G4cout << " ### pMax " << pMax << G4endl;
 
     return true;
   }
@@ -1371,6 +1377,10 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
       }
     }
     delete vertices;
+
+    G4cout << " TIMES TWO " << G4endl;
+    pMin*=2.0;
+    pMax*=2.0;
     return existsAfterClip;
   }
 }
