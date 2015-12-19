@@ -205,7 +205,7 @@ find_path(CLHEP_INCLUDE_DIR CLHEP/Units/defs.h
 if(CLHEP_INCLUDE_DIR)
     set(CLHEP_VERSION 0)
     file(READ "${CLHEP_INCLUDE_DIR}/CLHEP/Units/defs.h" _CLHEP_DEFS_CONTENTS)
-    string(REGEX REPLACE ".*#define PACKAGE_VERSION \"([0-9.]+).*" "\\1"
+    string(REGEX REPLACE ".*#define CLHEP_UNITS_VERSION \"([0-9.]+).*" "\\1"
         CLHEP_VERSION "${_CLHEP_DEFS_CONTENTS}")
 
     if(NOT CLHEP_FIND_QUIETLY)
