@@ -762,6 +762,11 @@ GetScintillationYieldByParticleType(const G4Track &aTrack, const G4Step &aStep)
     Scint_Yield_Vector = aMaterialPropertiesTable->
       GetProperty("TRITONSCINTILLATIONYIELD");
 
+  // He3
+  else if(pDef==G4He3::He3Definition())
+    Scint_Yield_Vector = aMaterialPropertiesTable->
+      GetProperty("HE3SCINTILLATIONYIELD");
+
   // Alphas
   else if(pDef==G4Alpha::AlphaDefinition())
     Scint_Yield_Vector = aMaterialPropertiesTable->
