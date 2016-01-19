@@ -176,9 +176,9 @@ G4OpBoundaryProcess::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 
         const G4Step* pStep = &aStep;
 
-        //const G4Step* hStep = G4ParallelWorldProcess::GetHyperStep();
+        const G4Step* hStep = G4ParallelWorldProcess::GetHyperStep();
         
-        //if (hStep) pStep = hStep;
+        if (hStep) pStep = hStep;
 
         G4bool isOnBoundary =
                 (pStep->GetPostStepPoint()->GetStepStatus() == fGeomBoundary);

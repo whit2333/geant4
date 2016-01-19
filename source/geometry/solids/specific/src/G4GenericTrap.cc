@@ -1378,9 +1378,9 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     }
     delete vertices;
 
-    G4cout << " TIMES TWO " << G4endl;
-    pMin*=2.0;
-    pMax*=2.0;
+    //std::cout << " TIMES Three\n";
+    //pMin*=1.0;
+    //pMax*=1.0;
     return existsAfterClip;
   }
 }
