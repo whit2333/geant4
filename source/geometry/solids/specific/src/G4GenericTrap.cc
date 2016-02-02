@@ -549,7 +549,9 @@ G4ThreeVector G4GenericTrap::NormalToPlane( const G4ThreeVector& p,
       
   if (std::fabs(distz)<halfCarTolerance)
   {
-    p1=G4ThreeVector(fVertices[i].x(),fVertices[i].y(),-fDz);distz=-1;}
+    p1=G4ThreeVector(fVertices[i].x(),fVertices[i].y(),-fDz);
+    distz=-1;
+  }
   else
   {
     p1=G4ThreeVector(fVertices[i+4].x(),fVertices[i+4].y(),fDz);
@@ -1218,11 +1220,8 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
 
   // Computes bounding vectors for a shape
   //
-  G4double Dx,Dy;
   G4ThreeVector minVec = GetMinimumBBox();
   G4ThreeVector maxVec = GetMaximumBBox();
-  Dx = 0.5*(maxVec.x()- minVec.x());
-  Dy = 0.5*(maxVec.y()- minVec.y());
 
   if (!pTransform.IsRotated())
   {
@@ -1235,8 +1234,8 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     G4double zoffset,zMin,zMax;
 
     xoffset=pTransform.NetTranslation().x();
-    xMin=xoffset-Dx;
-    xMax=xoffset+Dx;
+    xMin=xoffset+minVec.x();
+    xMax=xoffset+maxVec.x();
     if (pVoxelLimit.IsXLimited())
     {
       if ( (xMin>pVoxelLimit.GetMaxXExtent()+kCarTolerance)
@@ -1258,8 +1257,8 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     }
 
     yoffset=pTransform.NetTranslation().y();
-    yMin=yoffset-Dy;
-    yMax=yoffset+Dy;
+    yMin=yoffset+minVec.y();
+    yMax=yoffset+maxVec.y();
     if (pVoxelLimit.IsYLimited())
     {
       if ( (yMin>pVoxelLimit.GetMaxYExtent()+kCarTolerance)
@@ -1281,8 +1280,8 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     }
 
     zoffset=pTransform.NetTranslation().z();
-    zMin=zoffset-fDz;
-    zMax=zoffset+fDz;
+    zMin=zoffset+minVec.z();
+    zMax=zoffset+maxVec.z();
     if (pVoxelLimit.IsZLimited())
     {
       if ( (zMin>pVoxelLimit.GetMaxZExtent()+kCarTolerance)
@@ -1322,12 +1321,6 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
     }
     pMin-=kCarTolerance;
     pMax+=kCarTolerance;
-    // Artificailly multiply the extent by two because it is erroniously small?
-    //G4cout << " TIMES TWO " << G4endl;
-    pMin*=2.0;
-    pMax*=2.0;
-    //G4cout << " ### pMin " << pMin << G4endl;
-    //G4cout << " ### pMax " << pMax << G4endl;
 
     return true;
   }
@@ -1377,10 +1370,6 @@ G4bool G4GenericTrap::CalculateExtent(const EAxis pAxis,
       }
     }
     delete vertices;
-
-    //std::cout << " TIMES Three\n";
-    //pMin*=1.0;
-    //pMax*=1.0;
     return existsAfterClip;
   }
 }
@@ -2160,13 +2149,9 @@ G4VisExtent G4GenericTrap::GetExtent() const
   } 
 #endif
    
-  G4double Dx,Dy;
   G4ThreeVector minVec = GetMinimumBBox();
   G4ThreeVector maxVec = GetMaximumBBox();
-  Dx = 0.5*(maxVec.x()- minVec.x());
-  Dy = 0.5*(maxVec.y()- minVec.y());
-
-  return G4VisExtent (-Dx, Dx, -Dy, Dy, -fDz, fDz); 
+  return G4VisExtent (minVec.x(), maxVec.x(), minVec.y(), maxVec.y(), minVec.z(), maxVec.z()); 
 }    
 
 // --------------------------------------------------------------------
